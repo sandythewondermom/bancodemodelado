@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>El Banco de Modelado™ — Sandy the Wondermom</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap');
+
+  :root {
+    --sage: #7A9E7E;
+    --sage-light: #EEF4EF;
+    --sage-mid: #C5DAC7;
+    --terracotta: #C47B5A;
+    --terracotta-light: #FAF0EB;
+    --cream: #FBF8F4;
+    --ink: #2C2C2C;
+    --ink-soft: #5A5A5A;
+    --ink-muted: #9A9A9A;
+    --border: #E8E2DA;
+    --white: #FFFFFF;
+    --shadow: 0 2px 16px rgba(44,44,44,0.07);
+    --gold: #C8A96E;
+    --gold-light: #FBF5EA;
+    --f-pedir: #7A9E7E;
+    --f-pedir-bg: #EEF4EF;
+    --f-comentar: #6B8FBE;
+    --f-comentar-bg: #EEF2FA;
+    --f-protestar: #C47B5A;
+    --f-protestar-bg: #FAF0EB;
+    --f-narrar: #9B7EC8;
+    --f-narrar-bg: #F3EEFC;
+    --f-razonar: #C8A96E;
+    --f-razonar-bg: #FBF5EA;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    min-height: 100vh;
+    padding-bottom: 60px;
+  }
+
+  .header {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 28px 24px 22px;
+    text-align: center;
+    box-shadow: var(--shadow);
+  }
+
+  .header-brand {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin-bottom: 6px;
+  }
+
+  .header-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+
+  .header-title em { color: var(--terracotta); font-style: italic; }
+  .header-sub { font-size: 12px; color: var(--ink-muted); margin-top: 6px; }
+
+  .intro {
+    background: var(--sage-light);
+    border-bottom: 1px solid var(--sage-mid);
+    padding: 16px 24px;
+    text-align: center;
+  }
+
+  .intro p {
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--ink-soft);
+    max-width: 420px;
+    margin: 0 auto;
+  }
+
+  .main {
+    padding: 20px 16px;
+    max-width: 480px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  /* SELECTOR BORDE */
+  .card {
+    background: var(--white);
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    border: 1.5px solid var(--border);
+    overflow: hidden;
+  }
+
+  .card-header {
+    padding: 14px 18px 12px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .card-num {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--sage-light);
+    border: 1.5px solid var(--sage-mid);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--sage);
+    flex-shrink: 0;
+  }
+
+  .card-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-top: 1px;
+  }
+
+  .card-body { padding: 14px 18px; }
+
+  .bordes-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 7px;
+  }
+
+  .borde-btn {
+    padding: 10px 10px;
+    border-radius: 11px;
+    border: 1.5px solid var(--border);
+    background: var(--white);
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.15s;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .borde-btn:hover { border-color: var(--sage-mid); background: var(--sage-light); }
+  .borde-btn.active { border-color: var(--sage); background: var(--sage-light); }
+
+  .bb-icon { font-size: 18px; margin-bottom: 3px; }
+  .bb-num { font-size: 9px; color: var(--ink-muted); font-weight: 600; letter-spacing: 0.5px; }
+  .bb-name { font-size: 11px; font-weight: 600; color: var(--ink); margin-top: 1px; line-height: 1.3; }
+
+  /* RESULTADO */
+  .resultado { display: none; flex-direction: column; gap: 14px; }
+  .resultado.show { display: flex; }
+
+  /* CABECERA */
+  .res-cab {
+    background: var(--sage);
+    border-radius: 16px;
+    padding: 18px 18px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .res-cab-icon { font-size: 32px; flex-shrink: 0; }
+
+  .res-cab-eyebrow {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 3px;
+  }
+
+  .res-cab-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--white);
+    line-height: 1.2;
+  }
+
+  .res-cab-sub {
+    font-size: 11px;
+    color: rgba(255,255,255,0.75);
+    margin-top: 3px;
+  }
+
+  /* INSTRUCCIÓN */
+  .instruccion {
+    background: var(--white);
+    border-radius: 13px;
+    border: 1.5px solid var(--border);
+    padding: 14px 16px;
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+    font-style: italic;
+  }
+
+  /* FUNCIONES TABS */
+  .funciones-tabs {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    padding-bottom: 2px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .funciones-tabs::-webkit-scrollbar { display: none; }
+
+  .func-tab {
+    flex-shrink: 0;
+    padding: 7px 14px;
+    border-radius: 20px;
+    border: 1.5px solid var(--border);
+    background: var(--white);
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink-muted);
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+
+  .func-tab:hover { border-color: var(--sage-mid); color: var(--ink); }
+  .func-tab.active-pedir { border-color: var(--f-pedir); background: var(--f-pedir-bg); color: var(--f-pedir); }
+  .func-tab.active-comentar { border-color: var(--f-comentar); background: var(--f-comentar-bg); color: var(--f-comentar); }
+  .func-tab.active-protestar { border-color: var(--f-protestar); background: var(--f-protestar-bg); color: var(--f-protestar); }
+  .func-tab.active-narrar { border-color: var(--f-narrar); background: var(--f-narrar-bg); color: var(--f-narrar); }
+  .func-tab.active-razonar { border-color: var(--f-razonar); background: var(--f-razonar-bg); color: var(--f-razonar); }
+
+  /* PANEL DE FRASES */
+  .frases-panel {
+    background: var(--white);
+    border-radius: 16px;
+    border: 1.5px solid var(--border);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+
+  .frases-header {
+    padding: 14px 16px 12px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .fh-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .fh-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .fh-desc {
+    font-size: 11px;
+    color: var(--ink-muted);
+    margin-top: 1px;
+  }
+
+  .frases-body { padding: 14px 16px; }
+
+  .frase-group { margin-bottom: 16px; }
+  .frase-group:last-child { margin-bottom: 0; }
+
+  .fg-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 8px;
+  }
+
+  .frases-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .frase-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--cream);
+    cursor: pointer;
+    transition: all 0.15s;
+    position: relative;
+  }
+
+  .frase-item:active { opacity: 0.8; }
+
+  .frase-comillas {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: var(--sage-mid);
+    line-height: 1;
+    flex-shrink: 0;
+    margin-top: -2px;
+  }
+
+  .frase-texto {
+    font-size: 13px;
+    color: var(--ink);
+    line-height: 1.5;
+    flex: 1;
+    font-weight: 500;
+  }
+
+  .frase-copy {
+    font-size: 16px;
+    flex-shrink: 0;
+    opacity: 0.4;
+    margin-top: 1px;
+  }
+
+  /* NOTA DE USO */
+  .nota-uso {
+    background: var(--gold-light);
+    border: 1.5px solid #F0DEB8;
+    border-radius: 13px;
+    padding: 14px 16px;
+    display: flex;
+    gap: 10px;
+  }
+
+  .nu-icon { font-size: 18px; flex-shrink: 0; }
+  .nu-text { font-size: 12.5px; color: var(--ink-soft); line-height: 1.6; }
+  .nu-text strong { color: var(--ink); font-weight: 600; }
+
+  .btn-secondary {
+    background: var(--white);
+    color: var(--sage);
+    border: 1.5px solid var(--sage-mid);
+    border-radius: 14px;
+    padding: 13px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    width: 100%;
+  }
+
+  .btn-secondary:hover { background: var(--sage-light); }
+
+  /* TOAST */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--ink);
+    color: var(--white);
+    padding: 10px 18px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    z-index: 300;
+    transition: transform 0.3s ease;
+    white-space: nowrap;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  }
+
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* FUNCIONES INFO */
+  .func-info {
+    background: var(--sage-light);
+    border: 1.5px solid var(--sage-mid);
+    border-radius: 12px;
+    padding: 12px 14px;
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+    margin-bottom: 4px;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-brand">Sandy the Wondermom</div>
+  <div class="header-title">El Banco de <em>Modelado</em>™</div>
+  <div class="header-sub">Las palabras exactas para cada momento</div>
+</div>
+
+<div class="intro">
+  <p>No tienes que inventar nada. Elige el borde de tu hijo y la función que quieres trabajar. Aquí tienes las frases exactas, listas para usar.</p>
+</div>
+
+<div class="main">
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-num">1</div>
+      <div>
+        <div class="card-label">Elige el borde</div>
+        <div class="card-title">¿En qué etapa está tu hijo?</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="bordes-grid" id="bordesGrid"></div>
+    </div>
+  </div>
+
+  <div class="resultado" id="resultado">
+
+    <div class="res-cab" id="resCab">
+      <div class="res-cab-icon" id="resCabIcon"></div>
+      <div>
+        <div class="res-cab-eyebrow">Banco de modelado</div>
+        <div class="res-cab-title" id="resCabTitle"></div>
+        <div class="res-cab-sub" id="resCabSub"></div>
+      </div>
+    </div>
+
+    <div class="instruccion" id="instruccion"></div>
+
+    <div>
+      <div class="funciones-tabs" id="funcionesTabs"></div>
+    </div>
+
+    <div class="func-info" id="funcInfo"></div>
+
+    <div class="frases-panel" id="frasesPanel">
+      <div class="frases-header">
+        <div class="fh-dot" id="fhDot"></div>
+        <div>
+          <div class="fh-title" id="fhTitle"></div>
+          <div class="fh-desc" id="fhDesc"></div>
+        </div>
+      </div>
+      <div class="frases-body" id="frasesBody"></div>
+    </div>
+
+    <div class="nota-uso" id="notaUso">
+      <div class="nu-icon">🧭</div>
+      <div class="nu-text" id="notaUsoText"></div>
+    </div>
+
+    <button class="btn-secondary" onclick="reiniciar()">Explorar otro borde</button>
+  </div>
+
+</div>
+
+<div class="toast" id="toast">Frase copiada ✓</div>
+
+<script>
+const BORDES = [
+  { id: 'conexion', num: 1, icon: '👁️', nombre: 'Conexión', sub: 'Antes de las palabras' },
+  { id: 'atencion', num: 2, icon: '👀', nombre: 'Atención compartida', sub: 'Antes de las palabras' },
+  { id: 'intencion', num: 3, icon: '🤲', nombre: 'Intención comunicativa', sub: 'Antes de las palabras' },
+  { id: 'imitacion', num: 4, icon: '🪞', nombre: 'Imitación', sub: 'Antes de las palabras' },
+  { id: 'palabras', num: 5, icon: '💬', nombre: 'Palabras', sub: 'Primeras palabras' },
+  { id: 'combinacion', num: 6, icon: '🔗', nombre: 'Combinación', sub: 'Dos palabras' },
+  { id: 'frases', num: 7, icon: '📝', nombre: 'Frases', sub: 'Frases propias' },
+  { id: 'conversacion', num: 8, icon: '🗣️', nombre: 'Conversación', sub: 'Intercambios' },
+  { id: 'narracion', num: 9, icon: '📖', nombre: 'Narración', sub: 'Contar experiencias' },
+  { id: 'pensamiento', num: 10, icon: '🧠', nombre: 'Expresión compleja', sub: 'Razonar y sentir' }
+];
+
+const FUNCIONES = [
+  { id: 'pedir', nombre: 'Pedir', icon: '🙋', color: 'pedir', desc: 'Frases para que el niño aprenda a pedir lo que necesita o quiere' },
+  { id: 'comentar', nombre: 'Comentar', icon: '💭', color: 'comentar', desc: 'Frases para compartir observaciones sobre el mundo' },
+  { id: 'protestar', nombre: 'Protestar', icon: '🚫', color: 'protestar', desc: 'Frases para expresar rechazo, desacuerdo o incomodidad' },
+  { id: 'narrar', nombre: 'Narrar', icon: '📖', color: 'narrar', desc: 'Frases para contar lo que pasó o lo que va a pasar' },
+  { id: 'razonar', nombre: 'Razonar', icon: '🧠', color: 'razonar', desc: 'Frases para explicar, opinar y expresar emociones' }
+];
+
+const BANCO = {
+  conexion: {
+    instruccion: 'En este borde el objetivo no es que diga palabras. Es que experimente que estar contigo es seguro y agradable. Usa estas frases para crear presencia, no para provocar respuesta.',
+    nota: '<strong>No esperes que responda.</strong> En este borde, lo que importa es que escuche tu voz con emoción positiva y que sienta que estás con él. El cerebro lo registra todo, aunque no lo veas todavía.',
+    pedir: {
+      desc: 'Modela la intención de pedir sin exigir respuesta',
+      grupos: [
+        { label: 'Frases que tú modelas en su nombre', frases: ['Quiero más.', 'Ayuda, por favor.', 'Ven conmigo.', 'Mira esto.', 'Otra vez.'] },
+        { label: 'Frases que le dices a él', frases: ['¿Quieres más?', '¿Te ayudo?', '¿Voy contigo?', '¿Lo hacemos juntos?'] }
+      ]
+    },
+    comentar: {
+      desc: 'Nombra el mundo para que el cerebro empiece a asociar palabras con experiencias',
+      grupos: [
+        { label: 'Comentarios sencillos sin esperar respuesta', frases: ['¡Mira qué cosa tan bonita!', '¡Qué divertido!', 'Eso está muy caliente.', '¡Qué ruido tan grande!', 'Aquí estamos juntos.'] },
+        { label: 'Reacciones emocionales compartidas', frases: ['¡Uy, se cayó!', '¡Qué sorpresa!', '¡Vaya, qué grande!', '¡Mmm, qué rico!', '¡Oh, qué suave!'] }
+      ]
+    },
+    protestar: {
+      desc: 'Modela el rechazo de forma tranquila para que aprenda que protestar con palabras es posible',
+      grupos: [
+        { label: 'Modela el "no" con calma', frases: ['No quiero.', 'Para, por favor.', 'No más.', 'No me gusta.', 'Ahora no.'] },
+        { label: 'Valida su protesta sin palabras', frases: ['Veo que no quieres.', 'Entiendo, no te gusta.', 'Vale, paramos.', 'Ahora no, lo dejamos.'] }
+      ]
+    },
+    narrar: {
+      desc: 'Narra secuencias simples del momento presente para que el cerebro empiece a organizar el tiempo',
+      grupos: [
+        { label: 'Narración del ahora', frases: ['Primero esto, después aquello.', 'Ahora nos lavamos.', 'Primero el abrigo, después salimos.', 'Ya terminamos. Ahora descansamos.'] },
+        { label: 'Anticipación simple', frases: ['Ahora vamos a comer.', 'Después del baño, a dormir.', 'Primero esto y luego jugamos.'] }
+      ]
+    },
+    razonar: {
+      desc: 'Modela el lenguaje emocional simple para que el cerebro empiece a asociar palabras con estados internos',
+      grupos: [
+        { label: 'Nombres de emociones básicas', frases: ['Estás contento.', 'Pareces cansado.', 'Eso te pone triste.', 'Estás enfadado.', 'Eso te da miedo.'] },
+        { label: 'Conexión emoción-causa simple', frases: ['Lloras porque te duele.', 'Sonríes porque te gusta.', 'Te enfadas porque quieres más.'] }
+      ]
+    }
+  },
+
+  atencion: {
+    instruccion: 'El objetivo aquí es crear momentos donde los dos miréis lo mismo. Usa estas frases para compartir el mundo sin hacer preguntas. Comenta, reacciona, nombra. Sin esperar respuesta.',
+    nota: '<strong>Comenta más, pregunta menos.</strong> Las preguntas exigen respuesta. Los comentarios invitan a compartir. En este borde, el comentario es tu herramienta más poderosa.',
+    pedir: {
+      desc: 'Frases para invitar a mirar sin exigir',
+      grupos: [
+        { label: 'Invitaciones a mirar juntos', frases: ['¡Mira eso!', '¿Ves lo que yo veo?', '¡Mira, mira!', 'Ven, mira esto conmigo.', '¡Aquí, aquí!'] },
+        { label: 'Señalar con palabras', frases: ['Ahí, ese de allí.', '¡El de arriba!', 'Ese grande de allá.', 'El que está cerca de ti.'] }
+      ]
+    },
+    comentar: {
+      desc: 'La función más importante en este borde: compartir observaciones sobre el mundo',
+      grupos: [
+        { label: 'Comentarios de sorpresa', frases: ['¡Qué grande es ese camión!', '¡Mira cuántos pájaros!', '¡Ese perro es enorme!', '¡Uy, qué de colores!', '¡Cuánta gente hoy!'] },
+        { label: 'Comentarios descriptivos simples', frases: ['Ese coche es rojo.', 'El perro corre rápido.', 'Hay muchas flores.', 'El agua está muy fría hoy.', 'Ese árbol es altísimo.'] },
+        { label: 'Comentarios de reacción', frases: ['¡Uy, se cayó!', '¡Qué divertido!', '¡Ay, qué susto!', '¡Vaya, qué raro!', '¡Oh, qué bonito!'] }
+      ]
+    },
+    protestar: {
+      desc: 'Modela el rechazo con atención compartida como contexto',
+      grupos: [
+        { label: 'Rechazo de lo que ve', frases: ['No me gusta ese ruido.', 'Eso da un poco de miedo.', 'No quiero mirar eso.', 'Prefiero mirar por aquí.'] }
+      ]
+    },
+    narrar: {
+      desc: 'Conecta lo que veis con secuencias simples',
+      grupos: [
+        { label: 'Secuencias de lo que está pasando', frases: ['Primero pasó el coche, después el camión.', 'El pájaro llegó y luego se fue.', 'Antes estaba solo, ahora hay muchos.'] },
+        { label: 'Anticipación de lo que viene', frases: ['Ahora va a pasar el autobús.', 'Creo que ese perro va a correr.', 'Mira, ahora va a saltar.'] }
+      ]
+    },
+    razonar: {
+      desc: 'Conecta lo que veis con emociones y razones simples',
+      grupos: [
+        { label: 'Emoción ante lo que observáis', frases: ['¡Eso me pone muy contenta!', 'Ese ruido me molesta un poco.', 'Me encanta cuando hay tantos colores.', 'Eso me parece muy curioso.'] },
+        { label: 'Razonamiento simple sobre lo observado', frases: ['El perro corre porque está contento.', 'Ese señor lleva paraguas porque va a llover.', 'Ese niño llora porque se cayó.'] }
+      ]
+    }
+  },
+
+  intencion: {
+    instruccion: 'El objetivo es que el cerebro descubra que comunicar cambia las cosas. Acepta cualquier intento. Responde inmediatamente. Estas frases son las que tú modelas para que él descubra qué puede decir.',
+    nota: '<strong>Acepta cualquier forma de comunicación.</strong> Una mirada, un gesto, un sonido: todo cuenta. Cuando respondes a su intento, le estás enseñando que comunicar sirve para algo.',
+    pedir: {
+      desc: 'Las frases más funcionales para empezar a pedir',
+      grupos: [
+        { label: 'Peticiones básicas de alta frecuencia', frases: ['Más.', 'Ayuda.', 'Ven.', 'Abre.', 'Dame.', 'Mira.', 'Otra vez.'] },
+        { label: 'Peticiones con objeto', frases: ['Más agua.', 'Dame eso.', 'Abre esto.', 'Quiero más.', 'Ayuda aquí.'] }
+      ]
+    },
+    comentar: {
+      desc: 'Frases para mostrar que comunicar también sirve para compartir, no solo para conseguir cosas',
+      grupos: [
+        { label: 'Compartir lo que ve', frases: ['¡Mira!', '¡Ahí!', '¡Ese!', '¡Eso!', '¡Aquí!'] },
+        { label: 'Compartir reacciones', frases: ['¡Oh!', '¡Uy!', '¡Guau!', '¡Ay!', '¡Eh!'] }
+      ]
+    },
+    protestar: {
+      desc: 'Frases para expresar rechazo de forma comunicativa en lugar de conductual',
+      grupos: [
+        { label: 'Protestas básicas', frases: ['No.', 'Para.', 'No más.', 'Fuera.', 'No quiero.'] },
+        { label: 'Modela su protesta con palabras', frases: ['Dices no con la cabeza: "No."', 'Te alejas: "No quiero."', 'Empujas: "Para, por favor."'] }
+      ]
+    },
+    narrar: {
+      desc: 'Conecta la intención con la secuencia más simple posible',
+      grupos: [
+        { label: 'Secuencias de dos pasos', frases: ['Primero pides, después te doy.', 'Primero señalas, después voy.', 'Dices "más" y yo te doy más.'] }
+      ]
+    },
+    razonar: {
+      desc: 'Nombra lo que siente para que aprenda que las emociones también se comunican',
+      grupos: [
+        { label: 'Emoción detrás de la intención', frases: ['Quieres más porque te gusta.', 'Dices no porque no quieres.', 'Pides ayuda porque es difícil.', 'Te acercas porque me quieres.'] }
+      ]
+    }
+  },
+
+  imitacion: {
+    instruccion: 'El objetivo no es que repita palabras todavía. Es que aprenda a observar y reproducir. Empieza siempre por el cuerpo. Estas frases acompañan acciones: nunca las uses solas sin el gesto.',
+    nota: '<strong>Imítale a él primero.</strong> Antes de pedirle que te copie, copia tú lo que hace. Eso abre la puerta de la imitación desde dentro.',
+    pedir: {
+      desc: 'Frases que acompañan invitaciones a imitar',
+      grupos: [
+        { label: 'Invitaciones a copiar (con gesto)', frases: ['¡Haz como yo!', '¡Ahora tú!', '¡Tu turno!', '¡Como mamá!', '¡Igual que esto!'] },
+        { label: 'Después de que imite', frases: ['¡Lo has hecho!', '¡Igual que yo!', '¡Lo mismo!', '¡Bien!'] }
+      ]
+    },
+    comentar: {
+      desc: 'Nombra lo que está haciendo mientras lo hace, para conectar acción y palabra',
+      grupos: [
+        { label: 'Comentarios de la acción imitada', frases: ['Palmadas.', 'Arriba las manos.', 'Así, así.', 'Lo mismo.', 'Los dos juntos.'] },
+        { label: 'Sonidos para imitar', frases: ['¡Brrrum!', '¡Guau guau!', '¡Miau!', '¡Pum!', '¡Ssss!', '¡Mmm!', '¡Oh oh!'] }
+      ]
+    },
+    protestar: {
+      desc: 'Modela también el rechazo a imitar como comunicación válida',
+      grupos: [
+        { label: 'Si no quiere imitar', frases: ['No quieres hacer esto. Vale.', 'Otro día lo intentamos.', 'Ahora no, de acuerdo.'] }
+      ]
+    },
+    narrar: {
+      desc: 'Narra la secuencia de imitación para que el cerebro organice el turno',
+      grupos: [
+        { label: 'Estructura del turno imitativo', frases: ['Primero yo, después tú.', 'Yo lo hago y tú lo haces.', 'Me miras, y después lo haces tú.', 'Ahora yo. Ahora tú. Ahora yo.'] }
+      ]
+    },
+    razonar: {
+      desc: 'Conecta la imitación con el aprendizaje de forma simple',
+      grupos: [
+        { label: 'Por qué imitamos', frases: ['Así aprendemos juntos.', 'Tú me ves y lo intentas.', 'Lo haces porque me mirabas.', '¡Lo aprendiste mirándome!'] }
+      ]
+    }
+  },
+
+  palabras: {
+    instruccion: 'El objetivo es que las palabras tengan poder: que sirvan para algo real. Modela pocas palabras, muchas veces, en contexto. Acepta cualquier aproximación aunque no sea perfecta.',
+    nota: '<strong>No corrijas la pronunciación todavía.</strong> Si intenta decir la palabra aunque no salga perfecta, responde como si la hubiera dicho bien. El cerebro necesita éxito para seguir intentándolo.',
+    pedir: {
+      desc: 'Las primeras palabras más funcionales para pedir',
+      grupos: [
+        { label: 'Palabras de petición de alta frecuencia', frases: ['Más.', 'Dame.', 'Ven.', 'Ayuda.', 'Abre.', 'Agua.', 'Comer.', 'Arriba.'] },
+        { label: 'Modélalas en contexto', frases: ['Dices "más" y te doy más.', '"Ayuda" y te ayudo.', '"Ven" y vengo.', '"Abre" y abro.'] }
+      ]
+    },
+    comentar: {
+      desc: 'Primeras palabras para compartir observaciones',
+      grupos: [
+        { label: 'Palabras de comentario', frases: ['¡Mira!', '¡Eso!', '¡Aquí!', '¡Perro!', '¡Coche!', '¡Cae!', '¡Grande!', '¡Oh!'] },
+        { label: 'Nombres de cosas de alta motivación', frases: ['Pelota.', 'Coche.', 'Perro.', 'Gato.', 'Agua.', 'Leche.', 'Pan.', 'Mamá.', 'Papá.'] }
+      ]
+    },
+    protestar: {
+      desc: 'Primeras palabras para expresar rechazo',
+      grupos: [
+        { label: 'Palabras de rechazo', frases: ['No.', 'Para.', 'Fuera.', 'Ya.', 'No más.'] },
+        { label: 'Cómo modelarlas', frases: ['Cuando empuje: "Fuera."', 'Cuando se aleje: "No."', 'Cuando dé la vuelta: "No más."'] }
+      ]
+    },
+    narrar: {
+      desc: 'Primeras palabras para organizar secuencias',
+      grupos: [
+        { label: 'Palabras de tiempo y secuencia', frases: ['Ya.', 'Ahora.', 'Más.', 'Después.', 'Primero.', 'Listo.', 'Se fue.'] }
+      ]
+    },
+    razonar: {
+      desc: 'Primeras palabras para nombrar estados internos',
+      grupos: [
+        { label: 'Palabras emocionales básicas', frases: ['Bien.', 'Mal.', 'Duele.', 'Miedo.', 'Contento.', 'Triste.', 'Cansado.'] }
+      ]
+    }
+  },
+
+  combinacion: {
+    instruccion: 'El objetivo es que descubra que dos palabras juntas dicen más que una sola. Modela siempre una palabra más de lo que él dice. Sin pedir que repita. Sin corregir. Solo mostrar.',
+    nota: '<strong>La regla de oro: amplía, no corrijas.</strong> Si dice "agua", tú dices "más agua". Si dice "coche", tú dices "coche va". Ese paso de diferencia es exactamente donde vive el aprendizaje.',
+    pedir: {
+      desc: 'Combinaciones para pedir cosas concretas',
+      grupos: [
+        { label: 'Pedir cantidad', frases: ['Más agua.', 'Más pan.', 'Más música.', 'Más juego.', 'Otro más.'] },
+        { label: 'Pedir acción', frases: ['Mamá ven.', 'Papá ayuda.', 'Abre esto.', 'Dame ese.', 'Ponlo aquí.'] },
+        { label: 'Pedir objeto', frases: ['Quiero agua.', 'Dame coche.', 'Quiero pan.', 'Dame pelota.'] }
+      ]
+    },
+    comentar: {
+      desc: 'Combinaciones para describir lo que ve y lo que pasa',
+      grupos: [
+        { label: 'Objeto + cualidad', frases: ['Coche rojo.', 'Pelota grande.', 'Agua fría.', 'Pan caliente.', 'Perro pequeño.'] },
+        { label: 'Sujeto + acción', frases: ['Perro corre.', 'Coche va.', 'Pájaro vuela.', 'Niño salta.', 'Mamá cocina.'] },
+        { label: 'Localización', frases: ['Aquí no.', 'Allí está.', 'Dentro no.', 'Arriba sí.', 'Ahí va.'] }
+      ]
+    },
+    protestar: {
+      desc: 'Combinaciones para expresar rechazo de forma más elaborada',
+      grupos: [
+        { label: 'Rechazo con objeto', frases: ['No baño.', 'No quiero.', 'No más eso.', 'No me gusta.', 'Para ya.'] },
+        { label: 'Rechazo con persona', frases: ['No tú.', 'Yo solo.', 'No ayuda.', 'Déjame.'] }
+      ]
+    },
+    narrar: {
+      desc: 'Combinaciones para organizar secuencias simples',
+      grupos: [
+        { label: 'Secuencias de dos pasos', frases: ['Primero esto.', 'Después aquello.', 'Coche fue.', 'Pájaro se fue.', 'Ya listo.', 'Se acabó.'] }
+      ]
+    },
+    razonar: {
+      desc: 'Combinaciones para expresar estados internos',
+      grupos: [
+        { label: 'Emoción simple', frases: ['Yo contento.', 'Tengo miedo.', 'Estoy cansado.', 'Me duele.', 'Quiero dormir.'] }
+      ]
+    }
+  },
+
+  frases: {
+    instruccion: 'El objetivo es que construya frases propias. No perfectas. No adultas. Pero suyas. Modela frases ligeramente más largas que lo que él produce. Expande sin exigir repetición.',
+    nota: '<strong>No corrijas la gramática todavía.</strong> Si dice "yo quiero pan grande", no digas "hay que decir quiero el pan grande". Di tú la frase correcta de forma natural en la conversación, sin señalar el error.',
+    pedir: {
+      desc: 'Frases completas para pedir de forma elaborada',
+      grupos: [
+        { label: 'Peticiones con estructura completa', frases: ['Quiero más agua, por favor.', 'Puedes ayudarme con esto.', 'Quiero el coche rojo.', 'Dame un poco más.', 'Necesito ayuda aquí.'] },
+        { label: 'Peticiones con contexto', frases: ['Tengo sed, quiero agua.', 'No llego, ¿me ayudas?', 'Quiero jugar contigo.', 'Puedo tener uno más.'] }
+      ]
+    },
+    comentar: {
+      desc: 'Frases para describir y compartir observaciones',
+      grupos: [
+        { label: 'Descripción con frase', frases: ['El perro es muy grande.', 'Ese coche va muy rápido.', 'El agua está muy fría.', 'Hay muchas flores hoy.', 'Ese árbol es altísimo.'] },
+        { label: 'Compartir una observación', frases: ['Mira, el pájaro está en el árbol.', 'Ese niño juega solo.', 'La música está muy fuerte.', 'Aquí hay mucha gente hoy.'] }
+      ]
+    },
+    protestar: {
+      desc: 'Frases para expresar rechazo de forma elaborada',
+      grupos: [
+        { label: 'Rechazo con razón', frases: ['No quiero eso, no me gusta.', 'Para, me está molestando.', 'No más, ya estoy lleno.', 'Ahora no, estoy cansado.', 'Eso no me gusta nada.'] },
+        { label: 'Rechazo con alternativa', frases: ['No quiero ese, quiero el otro.', 'No ahora, luego sí.', 'No eso, quiero esto mejor.'] }
+      ]
+    },
+    narrar: {
+      desc: 'Frases para organizar secuencias y contar lo que pasó',
+      grupos: [
+        { label: 'Secuencias con frases', frases: ['Primero fui al parque y después comí.', 'El coche llegó y después se fue.', 'Primero llorié y después me sentí mejor.', 'Antes no podía y ahora sí.'] },
+        { label: 'Anticipar con frases', frases: ['Después del baño vamos a cenar.', 'Mañana vamos al parque.', 'Primero esto y luego jugamos.'] }
+      ]
+    },
+    razonar: {
+      desc: 'Frases para expresar emociones y razones',
+      grupos: [
+        { label: 'Emoción con causa', frases: ['Estoy contento porque jugamos.', 'Me pone triste cuando te vas.', 'Tengo miedo porque es muy alto.', 'Estoy cansado y quiero descansar.'] },
+        { label: 'Preferencias con frase', frases: ['A mí me gusta más el rojo.', 'Prefiero el grande.', 'No me gusta cuando está frío.', 'Me encanta cuando hacemos esto.'] }
+      ]
+    }
+  },
+
+  conversacion: {
+    instruccion: 'El objetivo es el ida y vuelta. Estas frases están diseñadas para abrir intercambios, no para cerrarlos. Úsalas y luego espera. No rellenes el silencio inmediatamente.',
+    nota: '<strong>Comenta más, pregunta menos.</strong> Los comentarios abren la conversación. Las preguntas directas muchas veces la cierran. Y cuando hagas una pregunta, espera de verdad: dale más tiempo del que te resulta cómodo.',
+    pedir: {
+      desc: 'Frases para invitar a participar en la conversación',
+      grupos: [
+        { label: 'Invitaciones a intervenir', frases: ['¿Tú qué crees?', '¿Y a ti?', 'Cuéntame.', '¿Qué piensas?', 'Dime.', '¿Qué más?'] },
+        { label: 'Pedir turno conversacional', frases: ['Ahora tú.', '¿Me cuentas algo?', 'Tu turno.', 'Quiero saber qué piensas.'] }
+      ]
+    },
+    comentar: {
+      desc: 'Comentarios que abren conversación sin exigir respuesta',
+      grupos: [
+        { label: 'Comentarios que invitan', frases: ['Hoy ha pasado algo muy curioso.', 'He visto algo que te va a gustar.', 'Qué día tan raro ha sido.', 'Me ha parecido muy divertido eso.'] },
+        { label: 'Compartir algo propio', frases: ['A mí me encanta cuando llueve.', 'Hoy estoy un poco cansada.', 'Me ha gustado mucho lo de antes.', 'Eso me ha sorprendido mucho.'] }
+      ]
+    },
+    protestar: {
+      desc: 'Frases para expresar desacuerdo de forma conversacional',
+      grupos: [
+        { label: 'Desacuerdo conversacional', frases: ['Yo creo que no.', 'No estoy muy segura.', 'A mí me parece diferente.', 'Hmm, no sé si es así.'] }
+      ]
+    },
+    narrar: {
+      desc: 'Frases para arrancar una narración en conversación',
+      grupos: [
+        { label: 'Iniciar una historia compartida', frases: ['¿Te acuerdas de cuando...?', 'El otro día pasó algo...', 'Esta mañana vi...', '¿Sabes lo que pasó hoy?'] },
+        { label: 'Invitar a continuar la historia', frases: ['¿Y qué pasó después?', '¿Y tú qué hiciste?', 'Continúa.', '¿Y entonces?'] }
+      ]
+    },
+    razonar: {
+      desc: 'Frases para llevar la conversación hacia el pensamiento y la emoción',
+      grupos: [
+        { label: 'Preguntas de razonamiento abierto', frases: ['¿Por qué crees que pasó eso?', '¿Cómo crees que se sintió?', '¿Qué habrías hecho tú?', '¿Qué te parece?'] },
+        { label: 'Expresar emoción en conversación', frases: ['Eso me pone muy contenta.', 'Me sorprende mucho lo que dices.', 'No me había dado cuenta de eso.', 'Eso me parece muy importante.'] }
+      ]
+    }
+  },
+
+  narracion: {
+    instruccion: 'El objetivo es organizar experiencias en palabras. Empieza siempre con experiencias recientes. Usa estas frases para modelar la estructura narrativa: quién, qué pasó, primero, después, al final.',
+    nota: '<strong>Narrar tú primero y dejarle añadir algo.</strong> No esperes la historia completa. Empieza tú, deja espacio, y acepta cualquier añadido suyo como una contribución válida a la narración compartida.',
+    pedir: {
+      desc: 'Frases para invitar a narrar sin exigir',
+      grupos: [
+        { label: 'Invitaciones a contar', frases: ['¿Qué pasó primero?', 'Cuéntame algo de hoy.', '¿Y después qué?', '¿Qué fue lo mejor?', 'Dime una cosa.'] },
+        { label: 'Andamiaje para la narración', frases: ['Empezamos así: primero...', 'Yo digo el principio, tú el final.', 'Una parte tú, una parte yo.'] }
+      ]
+    },
+    comentar: {
+      desc: 'Frases para modelar la narración de observaciones',
+      grupos: [
+        { label: 'Narrar lo que está pasando', frases: ['Ahora mismo estamos en el parque.', 'Hay un perro que está corriendo.', 'El sol está saliendo entre las nubes.'] },
+        { label: 'Narrar lo que acaba de pasar', frases: ['Acaba de pasar un camión enorme.', 'Ese niño se ha caído pero se ha levantado solo.', 'El pájaro estaba y se fue volando.'] }
+      ]
+    },
+    protestar: {
+      desc: 'Frases para narrar situaciones de rechazo o conflicto',
+      grupos: [
+        { label: 'Contar lo que no gustó', frases: ['No me gustó cuando eso pasó.', 'Eso me molestó porque...', 'La próxima vez no quiero hacer eso.', 'Cuando pasó eso me puse triste.'] }
+      ]
+    },
+    narrar: {
+      desc: 'Frases clave para estructurar la narración',
+      grupos: [
+        { label: 'Estructura temporal', frases: ['Primero...', 'Después...', 'Luego...', 'Al final...', 'Y entonces...', 'Antes de eso...', 'Cuando terminamos...'] },
+        { label: 'Frases de narración completa', frases: ['Primero fuimos al parque. Después comimos. Al final volvimos a casa.', 'Había una vez... y entonces... y al final...', 'Primero pasó esto, y después aquello.'] }
+      ]
+    },
+    razonar: {
+      desc: 'Frases para añadir emoción y razonamiento a la narración',
+      grupos: [
+        { label: 'Emoción dentro de la narración', frases: ['Y entonces me puse muy contenta.', 'Cuando pasó eso me dio mucho miedo.', 'Al principio no quería, pero después me gustó.', 'Me sorprendió mucho porque no lo esperaba.'] },
+        { label: 'Causa y efecto en la narración', frases: ['Pasó porque...', 'Como hacía frío, entonces...', 'Por eso después...', 'Fue por culpa de...', 'Gracias a que..., pudo...'] }
+      ]
+    }
+  },
+
+  pensamiento: {
+    instruccion: 'El objetivo es usar el lenguaje para pensar. Estas frases modelan el razonamiento en voz alta. No esperes que las reproduzca exactas: el cerebro las internaliza escuchándolas muchas veces.',
+    nota: '<strong>Piensa en voz alta junto a él.</strong> El lenguaje interior se construye escuchando lenguaje exterior organizado. Cuando piensas en voz alta, le estás dando el mapa de cómo organizar el pensamiento con palabras.',
+    pedir: {
+      desc: 'Frases para pedir de forma razonada y elaborada',
+      grupos: [
+        { label: 'Peticiones con razonamiento', frases: ['Necesito ayuda porque no llego.', 'Quiero hacer eso porque me parece interesante.', 'Prefiero este porque es más suave.', 'Podemos intentar esto, ¿qué te parece?'] }
+      ]
+    },
+    comentar: {
+      desc: 'Frases para comentar con pensamiento elaborado',
+      grupos: [
+        { label: 'Observaciones razonadas', frases: ['Me parece que ese árbol está enfermo porque las hojas son amarillas.', 'Creo que va a llover porque el cielo está muy gris.', 'Me parece curioso que...', 'Nunca me había fijado en que...'] },
+        { label: 'Opiniones personales', frases: ['A mí me parece que...', 'Yo creo que...', 'En mi opinión...', 'Lo que pienso es que...'] }
+      ]
+    },
+    protestar: {
+      desc: 'Frases para expresar desacuerdo con razonamiento',
+      grupos: [
+        { label: 'Desacuerdo razonado', frases: ['No creo que sea así porque...', 'Yo pienso diferente.', 'No me parece bien porque...', 'Entiendo lo que dices, pero yo creo que...'] },
+        { label: 'Expresar incomodidad con lenguaje', frases: ['Me siento incómodo cuando...', 'No me gusta que pase esto porque...', 'Eso no me parece justo.', 'Me cuesta aceptarlo porque...'] }
+      ]
+    },
+    narrar: {
+      desc: 'Frases para narrar con profundidad emocional y causal',
+      grupos: [
+        { label: 'Narración con perspectiva', frases: ['Al principio pensé que..., pero después me di cuenta de que...', 'Lo que más me sorprendió fue...', 'Lo que no entendí fue por qué...', 'La parte más difícil fue cuando...'] }
+      ]
+    },
+    razonar: {
+      desc: 'Las frases más importantes de este borde: expresar, razonar y sentir con lenguaje',
+      grupos: [
+        { label: 'Expresar emociones complejas', frases: ['Me siento raro porque no sé qué va a pasar.', 'Estoy un poco nervioso y también emocionado.', 'Me pone triste cuando eso ocurre, aunque entiendo por qué.', 'Siento que no lo hice bien y eso me da vergüenza.'] },
+        { label: 'Razonar sobre situaciones', frases: ['Creo que lo hizo porque tenía miedo.', 'Si hubiera sabido antes, habría...', 'Lo que podemos hacer es...', 'La próxima vez podría intentar...'] },
+        { label: 'Resolver con lenguaje', frases: ['Podemos buscar una solución juntos.', '¿Qué crees que podríamos hacer?', 'Si tú haces esto y yo hago aquello...', 'Primero calmamos, y después pensamos.'] }
+      ]
+    }
+  }
+};
+
+let bordeActivo = null;
+let funcionActiva = null;
+
+function init() {
+  const grid = document.getElementById('bordesGrid');
+  grid.innerHTML = BORDES.map(b => `
+    <button class="borde-btn" id="bb-${b.id}" onclick="selBorde('${b.id}')">
+      <div class="bb-icon">${b.icon}</div>
+      <div class="bb-num">BORDE ${b.num}</div>
+      <div class="bb-name">${b.nombre}</div>
+    </button>
+  `).join('');
+}
+
+function selBorde(id) {
+  bordeActivo = id;
+  funcionActiva = FUNCIONES[0].id;
+
+  BORDES.forEach(b => {
+    document.getElementById(`bb-${b.id}`).className = `borde-btn${b.id === id ? ' active' : ''}`;
+  });
+
+  const borde = BORDES.find(b => b.id === id);
+  const data = BANCO[id];
+
+  document.getElementById('resCabIcon').textContent = borde.icon;
+  document.getElementById('resCabTitle').textContent = borde.nombre;
+  document.getElementById('resCabSub').textContent = `Borde ${borde.num} · ${borde.sub}`;
+  document.getElementById('instruccion').textContent = data.instruccion;
+  document.getElementById('notaUsoText').innerHTML = data.nota;
+
+  renderTabs();
+  renderFrases();
+
+  const res = document.getElementById('resultado');
+  res.className = 'resultado show';
+  setTimeout(() => res.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+}
+
+function renderTabs() {
+  const tabs = document.getElementById('funcionesTabs');
+  tabs.innerHTML = FUNCIONES.map(f => `
+    <button class="func-tab ${funcionActiva === f.id ? 'active-' + f.color : ''}" onclick="selFuncion('${f.id}')">
+      ${f.icon} ${f.nombre}
+    </button>
+  `).join('');
+}
+
+function selFuncion(id) {
+  funcionActiva = id;
+  renderTabs();
+  renderFrases();
+}
+
+function renderFrases() {
+  const func = FUNCIONES.find(f => f.id === funcionActiva);
+  const data = BANCO[bordeActivo][funcionActiva];
+
+  document.getElementById('funcInfo').textContent = func.desc;
+
+  const colorMap = {
+    pedir: 'var(--f-pedir)',
+    comentar: 'var(--f-comentar)',
+    protestar: 'var(--f-protestar)',
+    narrar: 'var(--f-narrar)',
+    razonar: 'var(--f-razonar)'
+  };
+
+  document.getElementById('fhDot').style.background = colorMap[funcionActiva];
+  document.getElementById('fhTitle').textContent = `${func.icon} ${func.nombre}`;
+  document.getElementById('fhDesc').textContent = data.desc;
+
+  const body = document.getElementById('frasesBody');
+  body.innerHTML = data.grupos.map(g => `
+    <div class="frase-group">
+      <div class="fg-label">${g.label}</div>
+      <div class="frases-list">
+        ${g.frases.map(f => `
+          <div class="frase-item" onclick="copiarFrase('${f.replace(/'/g, "\\'")}')">
+            <div class="frase-comillas">"</div>
+            <div class="frase-texto">${f}</div>
+            <div class="frase-copy">📋</div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+function copiarFrase(texto) {
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(texto).then(() => showToast());
+  } else {
+    showToast();
+  }
+}
+
+function showToast() {
+  const t = document.getElementById('toast');
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+function reiniciar() {
+  bordeActivo = null;
+  funcionActiva = null;
+  BORDES.forEach(b => {
+    document.getElementById(`bb-${b.id}`).className = 'borde-btn';
+  });
+  document.getElementById('resultado').className = 'resultado';
+  window.scrollTo({ behavior: 'smooth', top: 0 });
+}
+
+init();
+</script>
+</body>
+</html>
